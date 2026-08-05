@@ -20,6 +20,10 @@
 - 📜 **Texto Rolante**: Nome do processador rola horizontalmente se for muito longo
 - ⚡ **Baixo consumo**: Otimizado para rodar em background com 4 FPS
 
+## 📸 Screenshots
+
+![HardwareProfiler em ação](screenshot.png)
+
 ### 🛠️ Tecnologias Utilizadas
 
 | Tecnologia | Finalidade |
@@ -33,5 +37,52 @@
 
 ## 🏗️ Arquitetura do Projeto
 
-### Estrutura de Diretórios
+### Estrutura de Arquivos
+HardwareProfiler/
+├── main.cpp # Ponto de entrada (WinMain)
+├── hardware_profiler.h/cpp # Coleta de métricas (CPU, RAM, Disco, GPU, Temp)
+├── overlay.h/cpp # Overlay GDI, renderização, interação
+├── README.md # Documentação
+├── LICENSE # MIT License
+└── HardwareProfiler.sln # Projeto Visual Studio
 
+### Fluxo de Dados (Simplificado)
+┌─────────────────────────────────────────────────────────┐
+│ HARDWARE PROFILER │
+├─────────────────────────────────────────────────────────┤
+│ │
+│ ┌─────────────────┐ ┌────────────────────────────┐ │
+│ │ Thread (1s) │ │ Overlay (4 FPS) │ │
+│ │ updateData() │───▶│ renderFrame() │ │
+│ └─────────────────┘ └────────────────────────────┘ │
+│ │ │ │
+│ ▼ ▼ │
+│ ┌─────────────────┐ ┌────────────────────────────┐ │
+│ │ Coleta de Dados │ │ Renderização GDI │ │
+│ │ • CPU (PDH) │ │ • CPU (nome + uso) │ │
+│ │ • RAM (WMI) │ │ • RAM (uso + total) │ │
+│ │ • Disco (API) │ │ • Disco (uso + livre) │ │
+│ │ • GPU (WMI) │ │ • GPU (nome + VRAM) │ │
+│ │ • Temp (WMI) │ │ • Temperatura (CPU/GPU) │ │
+│ └─────────────────┘ └────────────────────────────┘ │
+│ │
+│ ┌─────────────────────────────────────────────────────┐│
+│ │ Interação com Usuário ││
+│ │ • Insert → Mostrar/Ocultar ││
+│ │ • Home → Sair ││
+│ │ • Bandeja → Duplo clique alterna visibilidade ││
+│ └─────────────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────────────┘
+
+### Decisões Técnicas
+
+| Decisão | Motivo |
+|---------|--------|
+| **WinMain** | Aplicação GUI sem console |
+| **WS_EX_TOPMOST** | Overlay sempre visível |
+| **Double-buffering** | Elimina flicker no desenho |
+| **Média móvel da CPU** | Suaviza oscilações |
+| **Fallbacks (WMI/Registro)** | Compatibilidade com qualquer hardware |
+| **MsgWaitForMultipleObjects** | Baixo consumo de CPU |
+| **Hotkeys globais** | Funcionam mesmo com overlay oculto |
+| **Bandeja do sistema** | Programa roda em segundo plano |
