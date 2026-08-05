@@ -31,4 +31,7 @@
 | **GDI (Graphics Device Interface)** | Renderização do overlay |
 | **Double-buffering** | Eliminação de flicker |
 
-### 🏗️ Arquitetura do Projeto
+## 🏗️ Arquitetura do Projeto
+
+### Estrutura de Diretórios
+
