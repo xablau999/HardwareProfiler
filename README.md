@@ -24,7 +24,7 @@
 
 ![HardwareProfiler em ação](screenshot.png)
 
-### 🛠️ Tecnologias Utilizadas
+## 🛠️ Tecnologias Utilizadas
 
 | Tecnologia | Finalidade |
 |------------|------------|
@@ -46,33 +46,41 @@ HardwareProfiler/
 ├── LICENSE # MIT License
 └── HardwareProfiler.sln # Projeto Visual Studio
 
-### Fluxo de Dados (Simplificado)
-┌─────────────────────────────────────────────────────────┐
-│ HARDWARE PROFILER │
-├─────────────────────────────────────────────────────────┤
-│ │
-│ ┌─────────────────┐ ┌────────────────────────────┐ │
-│ │ Thread (1s) │ │ Overlay (4 FPS) │ │
-│ │ updateData() │───▶│ renderFrame() │ │
-│ └─────────────────┘ └────────────────────────────┘ │
-│ │ │ │
-│ ▼ ▼ │
-│ ┌─────────────────┐ ┌────────────────────────────┐ │
-│ │ Coleta de Dados │ │ Renderização GDI │ │
-│ │ • CPU (PDH) │ │ • CPU (nome + uso) │ │
-│ │ • RAM (WMI) │ │ • RAM (uso + total) │ │
-│ │ • Disco (API) │ │ • Disco (uso + livre) │ │
-│ │ • GPU (WMI) │ │ • GPU (nome + VRAM) │ │
-│ │ • Temp (WMI) │ │ • Temperatura (CPU/GPU) │ │
-│ └─────────────────┘ └────────────────────────────┘ │
-│ │
-│ ┌─────────────────────────────────────────────────────┐│
-│ │ Interação com Usuário ││
-│ │ • Insert → Mostrar/Ocultar ││
-│ │ • Home → Sair ││
-│ │ • Bandeja → Duplo clique alterna visibilidade ││
-│ └─────────────────────────────────────────────────────┘│
-└─────────────────────────────────────────────────────────┘
+### Fluxo de Dados
+
+O programa funciona em três camadas principais:
+
+#### 1. Coleta de Dados (Thread separada - 1 segundo)
+
+| Componente | Fonte de Dados |
+|------------|----------------|
+| **CPU** (uso, frequência, núcleos) | PDH (Performance Data Helper) |
+| **RAM** (total, usado, livre) | GlobalMemoryStatusEx |
+| **Disco** (uso, espaço livre, FS) | GetDiskFreeSpaceExW |
+| **GPU** (nome, VRAM) | WMI (Win32_VideoController) |
+| **Temperatura** (CPU/GPU) | WMI (MSAcpi_ThermalZoneTemperature) |
+| **Nome da CPU** | WMI (Win32_Processor) + Registro |
+
+#### 2. Renderização (Overlay GDI - 4 FPS)
+
+| Componente | Exibição |
+|------------|----------|
+| **CPU** | Nome do processador (texto rolante) + barra de uso + frequência + núcleos |
+| **RAM** | Barra de uso + total em GB |
+| **Disco** | Barra de uso + espaço livre em GB |
+| **GPU** | Nome + VRAM em GB |
+| **Temperatura** | CPU e GPU em Celsius |
+| **Sistema** | Uptime + Nome do PC + Versão do Windows |
+
+#### 3. Interação com o Usuário
+
+| Controle | Ação |
+|----------|------|
+| **Insert** | Mostrar/Ocultar overlay |
+| **Home** | Sair do programa |
+| **Bandeja (duplo clique)** | Mostrar/Ocultar overlay |
+| **Bandeja (clique direito)** | Sair do programa |
+| **Arrastar (title bar)** | Reposicionar overlay |
 
 ### Decisões Técnicas
 
@@ -86,3 +94,42 @@ HardwareProfiler/
 | **MsgWaitForMultipleObjects** | Baixo consumo de CPU |
 | **Hotkeys globais** | Funcionam mesmo com overlay oculto |
 | **Bandeja do sistema** | Programa roda em segundo plano |
+
+## 🔧 Como Compilar
+
+### Pré-requisitos
+- Visual Studio 2022 (Community Edition)
+- Windows 10 ou superior
+
+### Passos
+
+1. Clone o repositório:
+```bash
+git clone https://github.com/seu-usuario/HardwareProfiler.git
+Abra o arquivo HardwareProfiler.sln no Visual Studio
+
+Compile:
+
+Pressione Ctrl+Shift+B ou
+
+Build → Build Solution
+
+Execute:
+
+Pressione F5 para executar com debug
+
+Ou navegue até x64/Debug/HardwareProfiler.exe
+
+🎮 Como Usar
+Tecla	Ação
+Insert	Mostrar/Ocultar o overlay
+Home	Fechar o programa
+Duplo clique na bandeja	Restaurar o overlay
+Clique direito na bandeja	Fechar o programa
+
+📄 Licença
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+
+Desenvolvido por xablau999
+https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white
+https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white
