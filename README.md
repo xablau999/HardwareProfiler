@@ -98,38 +98,47 @@ O programa funciona em três camadas principais:
 ## 🔧 Como Compilar
 
 ### Pré-requisitos
-- Visual Studio 2022 (Community Edition)
+- Visual Studio 2022 (Community Edition ou superior)
 - Windows 10 ou superior
 
-### Passos
+### Passos para Compilar
 
-1. Clone o repositório:
+**1. Clone o repositório**
 ```bash
 git clone https://github.com/seu-usuario/HardwareProfiler.git
-Abra o arquivo HardwareProfiler.sln no Visual Studio
+```
 
-Compile:
+**2. Abra o projeto**
+- Navegue até a pasta do projeto
+- Abra o arquivo `HardwareProfiler.sln` no Visual Studio
 
-Pressione Ctrl+Shift+B ou
+**3. Compile**
+- Pressione `Ctrl + Shift + B`
+- Ou vá em **Build → Build Solution**
 
-Build → Build Solution
+**4. Execute**
+- Pressione `F5` para executar com debug
+- Ou navegue até `x64/Debug/HardwareProfiler.exe`
 
-Execute:
+---
 
-Pressione F5 para executar com debug
+## 🎮 Como Usar
 
-Ou navegue até x64/Debug/HardwareProfiler.exe
+| Tecla | Ação |
+|-------|------|
+| **Insert** | Mostrar/Ocultar o overlay |
+| **Home** | Fechar o programa |
+| **Duplo clique na bandeja** | Restaurar o overlay |
+| **Clique direito na bandeja** | Fechar o programa |
 
-🎮 Como Usar
-Tecla	Ação
-Insert	Mostrar/Ocultar o overlay
-Home	Fechar o programa
-Duplo clique na bandeja	Restaurar o overlay
-Clique direito na bandeja	Fechar o programa
+---
 
-📄 Licença
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+## 📄 Licença
 
-Desenvolvido por xablau999
-https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white
-https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+---
+
+**Desenvolvido por [Seu Nome]**  
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/seu-perfil)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](https://github.com/seu-usuario)
